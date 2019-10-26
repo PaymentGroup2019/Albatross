@@ -1,0 +1,60 @@
+﻿@using Albatross.Shared
+
+@inject Services.Interfaces.IRoomReservationService RoomReservationService
+
+@inject NavigationManager NavigationManager
+
+<div class="card my-2">
+    <div class="room" style="margin:10px">
+        <img src="@ImageSource" style="border-radius: 10px">
+        <div class="city_overlay" style="border-radius: 10px">
+            <a href="@Link" class="d-flex flex-column align-items-center justify-content-center">
+                <div class="city_title">@RoomData.DormitoryName</div>
+                <div class="city_subtitle">@RoomData.City</div>
+            </a>
+        </div>
+    </div>
+    <div class="card-body pt-0">
+        <div class="row" style="background: linear-gradient(to right, #487fee, #32fa95);border-radius: 16px;">
+            <div class="col-12 col-lg-3 d-flex justify-content-center pt-1">
+                <span class="text-dark" style="font-size: 11px">نام:</span>
+                <span class="text-white" style="font-size: 11px">&nbsp;</span>
+                <span class="text-white" style="font-size: 11px">@RoomData.DormitoryName</span>
+            </div>
+            <div class="col-12 col-lg-3 d-flex justify-content-center pt-1">
+                <span class="text-dark" style="font-size: 11px">شهر:</span>
+                <span class="text-white" style="font-size: 11px">&nbsp;</span>
+                <span class="text-white" style="font-size: 10px">@RoomData.City</span>
+            </div>
+            <div class="col-12 col-lg-3 d-flex justify-content-center pt-1">
+                <span class="text-dark" style="font-size: 11px">تعداد اتاق:</span>
+                <span class="text-white" style="font-size: 11px">&nbsp;</span>
+                <span class="text-white" style="font-size: 11px">@RoomData.Beds</span>
+            </div>
+            <div class="col-12 col-lg-3 d-flex justify-content-center pt-1">
+                <span class="text-dark" style="font-size: 11px">قیمت:</span>
+                <span class="text-white" style="font-size: 11px">&nbsp;</span>
+                <span class="text-white" style="font-size: 11px">@RoomData.Price</span>
+            </div>
+        </div>
+        <p class="card-text text-right mt-2">توضیحات خوابگاه دانشگاه آزاد واحد نجف آباد</p>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-success" @onclick="ReserveAsync">رزرو اتاق</button>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string ImageSource { get; set; } = "/images/city_2.jpg";
+    [Parameter] public string Title { get; set; } = "مدیریت اتاق ها";
+    [Parameter] public string PresentationText { get; set; } = "مدیریت اتاق ها";
+    [Parameter] public string Link { get; set; } = "Admin/Rooms";
+    [Parameter] public RoomData RoomData { get; set; }
+
+    async Task ReserveAsync()
+    {
+        await RoomReservationService.SetRoomReservationData(RoomData);
+
+        NavigationManager.NavigateTo($"/RoomReservation");
+    }
+}

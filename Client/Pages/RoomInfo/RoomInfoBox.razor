@@ -1,0 +1,31 @@
+﻿<div class="card mb-1 border-0" id="room-info-card">
+    <div class="card-body row py-1 px-0 mx-0 @( !hasBottom ? "room-info-body-bottom-set-border" : "room-info-body-bottom-unset-border")" id="room-info-body">
+        <div class="col-12 d-flex justify-content-center text-white">
+            <div class="col-11 text-center">
+                <span>مشخصات اتاق</span>
+            </div>
+            <div class="col-1 text-left">
+                <i class="fas fa-times-circle pl-0 text-danger" @onclick="RemoveRoomInfoBox"></i>
+            </div>
+        </div>
+        <div class="col-4">
+            <RoomInfo Label="بزرگسال" Description="بزرگتر از 6 سال" Max="5" />
+        </div>
+        <div class="col-4">
+            <RoomInfo Label="کودک" Description="2 تا 6 سال" Max="5" />
+        </div>
+        <div class="col-4">
+            <RoomInfo Label="خردسال" Description="زیر 2 سال" Max="5" />
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public bool hasBottom { get; set; }
+
+    private void RemoveRoomInfoBox()
+    {
+        Console.WriteLine("Remove this Element");
+    }
+}

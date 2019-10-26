@@ -1,0 +1,38 @@
+﻿@page "/MainWrapper"
+@layout LoginLayout
+@using Albatross.Client.Pages.Steps;
+@using Albatross.Client.Pages.RoomInfo;
+
+
+<h3>MainWrapper</h3>
+
+<div class="row">
+    <div class="col-4">
+        <RoomInfoWrapper />
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <button type="button" class="btn btn-info" @onclick="GoToNextStep">
+                    <span class="fas fa-plus-circle text-success"></span>مرحله بعد
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="row">
+            <Steps Step="3" />
+        </div>
+        <div class="row">
+            BODY
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public int CurrentStep { get; set; } = 1;
+
+    private void GoToNextStep()
+    {
+        CurrentStep++;
+    }
+}

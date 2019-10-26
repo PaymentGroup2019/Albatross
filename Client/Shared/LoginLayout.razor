@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
+
+<div class="container-fluid px-0">
+    @Body
+</div>
+
+<BlazoredToasts Position="ToastPosition.BottomLeft"
+                Timeout="2"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug"
+                WarningIconClass="fas fa-exclamation-triangle"
+                InfoIconClass="fas fa-info" />
+
+@code {
+
+}

@@ -1,0 +1,72 @@
+﻿@page "/UserLogin"
+
+@using Albatross.Shared
+@inject Services.Interfaces.ILoginService LoginService
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+@layout LoginLayout
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 pt-2 pb-3">
+            <div class="row d-flex justify-content-center pl-3">
+                <div class="logo mb-5">
+                    <a href="#"><img src="images/logo.png" alt=""></a>
+                </div>
+            </div>
+            <span class="login100-form-title pb-3 pr-4">
+                ورود کاربران
+            </span>
+
+            <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit" class="login100-form validate-form">
+                <div class="wrap-input100 validate-input" data-validate="Enter username">
+                    <InputText @bind-Value="_model.UserName" id="input100-username" class="input100" type="text" name="username" placeholder="نام کاربری"></InputText>
+                    <span class="focus-input100" data-placeholder="">
+                        <i class="fa fa-lg fa-user pr-2" style="padding-top: 36px">
+                        </i>
+                    </span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                    <InputText @bind-Value="_model.Password" id="input100-password" class="input100" type="password" name="password" placeholder="رمز عبور"></InputText>
+                    <span class="focus-input100" data-placeholder="">
+                        <i class="fa fa-lg fa-lock pr-2" style="padding-top: 36px">
+                        </i>
+                    </span>
+                </div>
+
+                <div class="container-login100-form-btn mt-3 pb-3">
+                    <button class="login100-form-btn" type="submit" disabled="@isLogin">@(isLogin ? "در حال ورود" : "ورود")</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    LoginDto _model = new LoginDto();
+
+    bool isLogin = false;
+
+    async Task HandleValidSubmit()
+    {
+        var result = await LoginService.UserLoginAsync(_model);
+
+        isLogin = true;
+
+        StateHasChanged();
+
+        if (result.IsSuccessful)
+        {
+            NavigationManager.NavigateTo("/");
+
+            toastService.ShowSuccess("ورود با موفقیت انجام شد");
+        }
+        else
+        {
+            isLogin = false;
+
+            StateHasChanged();
+        }
+    }
+}

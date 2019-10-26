@@ -1,0 +1,108 @@
+﻿@page "/RoomReservation"
+@using Albatross.Shared
+@inject Services.Interfaces.IRoomReservationService RoomReservationService
+
+<div class="row d-flex flex-row justify-content-center" style="margin-top:140px;margin-bottom:40px;">
+    @if (_roomData == null)
+    {
+        <p>در حال دریافت اطلاعات</p>
+    }
+    else
+    {
+        <div class="col-lg-5 flex-grow-1">
+            <div class="card" style="width:100%">
+                <div class="card-header">
+                    <p>مشخصات اتاق</p>
+                </div>
+                <div class="card-body">
+                    <div class="row form-group">
+                        <label for="city">شهر</label>
+                        <input type="text" class="form-control" id="city" @bind="_roomData.City" disabled />
+                    </div>
+                    <div class="row form-group">
+                        <label for="beds">تعداد تخت</label>
+                        <input type="number" class="form-control" id="beds" @bind="_roomData.Beds" disabled />
+                    </div>
+                    <div class="row form-group">
+                        <label for="dormitoryName">نام خوابگاه</label>
+                        <input type="text" class="form-control" id="dormitoryName" @bind="_roomData.DormitoryName" disabled />
+                    </div>
+                    <div class="row form-group">
+                        <label for="price">قیمت</label>
+                        <input type="number" class="form-control" id="price" @bind="_roomData.Price" disabled />
+                    </div>
+                    <div class="row form-group">
+                        <label for="fromDate">از تاریخ</label>
+                        <input type="date" class="form-control" id="fromDate" @bind="_roomData.FromDate" disabled />
+                    </div>
+                    <div class="row form-group">
+                        <label for="toDate">تا تاریخ</label>
+                        <input type="date" class="form-control" id="toDate" @bind="_roomData.ToDate" disabled />
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 flex-grow-1">
+            <div class="card" style="width:100%">
+                <div class="card-header">
+                    <p>تصاویر اتاق</p>
+                </div>
+                <div class="room">
+                    <img src="/images/city_1.jpg" style="border-radius: 10px" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 flex-grow-1">
+            <div class="card">
+                <div class="card-header">
+                    <p>مشخصات کاربر</p>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="_idInfo">
+                        <div class="row form-group">
+                            <label for="name">نام</label>
+                            <InputText id="name" @bind-Value="_idInfo.Name" class="form-control" />
+                        </div>
+                        <div class="row form-group">
+                            <label for="family">نام خانوادگی</label>
+                            <InputText id="family" @bind-Value="_idInfo.Family" class="form-control" />
+                        </div>
+                        <div class="row form-group">
+                            <label for="people">نفرات</label>
+                            <InputNumber id="people" @bind-Value="_idInfo.People" class="form-control" />
+                        </div>
+                        <div class="row form-group">
+                            <label for="code">شماره دانشجویی</label>
+                            <InputText id="code" @bind-Value="_idInfo.Code" class="form-control" />
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5 flex-grow-1">
+            <div class="card">
+                <div class="card-header">
+                    <p>توضحیات</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row d-flex flex-row justify-content-center" style="margin-top:20px;margin-bottom:40px;">
+
+</div>
+<div class="row d-flex flex-row justify-content-center" style="margin-top:20px;margin-bottom:40px;">
+
+</div>
+
+@code {
+    RoomData _roomData;
+
+    IdentificationDto _idInfo = new IdentificationDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roomData = await RoomReservationService.GetRoomReservationData();
+    }
+}

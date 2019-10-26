@@ -1,0 +1,72 @@
+﻿@page "/Admin/Dormitories/Register"
+@layout AdminLayout
+@using Albatross.Shared
+@using Microsoft.AspNetCore.Components
+@inject Services.Interfaces.IDormitoryService DormitoryService
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+
+<div class="container-fluid" style="margin-top:120px">
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-header">
+                    <p style="color:white;font-size:20px;font-family:IRANSans">ثبت خوابگاه</p>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <div class="form-group row">
+                            <ValidationSummary class="text-danger" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="state">نام استان</label>
+                            <InputText class="form-control" id="state" @bind-Value="_model.State" placeholder="نام استان" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="city">نام شهر</label>
+                            <InputText class="form-control" id="city" @bind-Value="_model.City" placeholder="نام شهر" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="university">نام دانشگاه</label>
+                            <InputText class="form-control" id="university" @bind-Value="_model.University" placeholder="نام دانشگاه" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="name">نام خوابگاه</label>
+                            <InputText class="form-control" id="name" @bind-Value="_model.Name" placeholder="نام خوابگاه" />
+                        </div>
+                        <div class="form-group d-flex flex-row row justify-content-center">
+                            <div class="col-lg-6 flex-grow-1 justify-content-center my-2">
+                                <button class="btn btn-warning mx-2" type="button" style="width:100%" @onclick="BackToDormitories">بازگشت</button>
+                            </div>
+                            <div class="col-lg-6 flex-grow-1 justify-content-center my-2">
+                                <button class="btn btn-success mx-2" type="submit" style="width:100%">ثبت</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+                <div class="card-footer">
+                    <p>        </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    DormitoryRegistrationViewModel _model = new DormitoryRegistrationViewModel();
+
+    void BackToDormitories()
+    {
+        NavigationManager.NavigateTo("/Admin/Dormitories");
+    }
+
+    async Task HandleValidSubmit()
+    {
+        await DormitoryService.RegisterDormitory(_model);
+
+        toastService.ShowSuccess("Dormitory added successfully");
+
+        NavigationManager.NavigateTo("/Admin/Dormitories");
+    }
+}

@@ -1,0 +1,16 @@
+﻿<div class="city" style="margin:10px">
+    <img src="@ImageSource" style="border-radius: 10px">
+    <div class="city_overlay" style="border-radius: 10px">
+        <a href="@Link" class="d-flex flex-column align-items-center justify-content-center">
+            <div class="city_title">@Title</div>
+            <div class="city_subtitle">@PresentationText</div>
+        </a>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string ImageSource { get; set; }
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string PresentationText { get; set; }
+    [Parameter] public string Link { get; set; } = "/#";
+}

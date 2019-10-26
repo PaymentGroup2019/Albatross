@@ -1,0 +1,72 @@
+﻿@page "/Admin/Rooms"
+@layout AdminLayout
+@using Albatross.Shared
+@inject Services.Interfaces.IRoomService RoomService
+
+
+<div class="container-fluid" style="margin-top:150px">
+    <div class="row d-flex flex-row justify-content-center">
+        <div class="col-10">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" class="rounded-left">ردیف</th>
+                        <th scope="col">تعداد تخت</th>
+                        <th scope="col">نوع اتاق</th>
+                        <th scope="col">خوابگاه</th>
+                        <th scope="col" class="rounded-right">عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (RoomItems == null || RoomItems.Count() == 0)
+                    {
+                        <tr>
+                            <td class="text-center" colspan="6">داده ای برای نمایش وجود ندارد</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in RoomItems)
+                        {
+                            <tr>
+                                <th scope="row">@Counter.ToString()</th>
+                                <td>@item.Capacity</td>
+                                <td>@item.Type</td>
+                                <td>@item.Dormitory</td>
+                                <td>
+                                    <a href="">
+                                        <i title="جزییات اتاق" class="fas fa-info text-info pr-1"></i>
+                                    </a>
+                                    <a href="">
+                                        <i title="ویرایش اتاق" class="fas fa-edit text-warning"></i>
+                                    </a>
+                                    <a href="">
+                                        <i title="حذف اتاق" class="fas fa-trash-alt text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            Counter++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<a href="/Admin/Rooms/Register" class="float">
+    <i class="fa fa-plus my-float"></i>
+</a>
+
+@code{
+    public int Counter { get; set; } = 1;
+
+    protected override async void OnInitialized()
+    {
+        RoomItems = await RoomService.GetAllRoomsAsync();
+    }
+
+    [Parameter]
+    public IEnumerable<RoomType> RoomItems { get; set; }
+}
+

@@ -1,0 +1,7 @@
+E:\Blazor\Albatross\Albatross\Shared\bin\Debug\netstandard2.0\Albatross.Shared.deps.json
+E:\Blazor\Albatross\Albatross\Shared\bin\Debug\netstandard2.0\Albatross.Shared.dll
+E:\Blazor\Albatross\Albatross\Shared\bin\Debug\netstandard2.0\Albatross.Shared.pdb
+E:\Blazor\Albatross\Albatross\Shared\obj\Debug\netstandard2.0\Albatross.Shared.AssemblyInfoInputs.cache
+E:\Blazor\Albatross\Albatross\Shared\obj\Debug\netstandard2.0\Albatross.Shared.AssemblyInfo.cs
+E:\Blazor\Albatross\Albatross\Shared\obj\Debug\netstandard2.0\Albatross.Shared.dll
+E:\Blazor\Albatross\Albatross\Shared\obj\Debug\netstandard2.0\Albatross.Shared.pdb

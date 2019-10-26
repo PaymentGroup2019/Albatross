@@ -1,0 +1,71 @@
+﻿@using Albatross.Shared
+@inject Services.Interfaces.ISearchDataService SearchDataService
+
+<div class="home_search_container">
+    <div class="home_search_content">
+        @if (searchData == null)
+        {
+            <div class="d-flex flex-row justify-content-center" style="text-align:center;font-size:16px;font-weight:400">
+                <p>در حال دریافت اطلاعات مورد نیاز</p>
+            </div>
+        }
+        else
+        {
+            <div class="search_form d-flex flex-row align-items-start justfy-content-start">
+                <EditForm Model="RoomSearchData" class="search_form search_form_content d-flex flex-row align-items-start justfy-content-start flex-wrap">
+                    <div class="form-group text-right px-4 py-1">
+                        <label for="type" style="font-size: 12px">نوع رزرو</label>
+                        <select id="type" class="form-control" @bind="RoomSearchData.ReservationType" style="cursor: pointer">
+                            <option disabled selected>نوع رزرو</option>
+                            @foreach (var type in searchData.ReservationTypes)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group text-right px-4 py-1">
+                        <label for="type" style="font-size: 12px">نوع اتاق</label>
+                        <select id="type" class="form-control" @bind="RoomSearchData.Type" style="cursor: pointer">
+                            <option disabled selected>نوع اتاق</option>
+                            @foreach (var type in searchData.Types)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group text-right px-4 py-1">
+                        <label for="city" style="font-size: 12px">شهر</label>
+                        <select id="city" class="form-control" @bind="RoomSearchData.City" style="cursor: pointer">
+                            <option disabled selected>شهر</option>
+                            @foreach (var city in searchData.Cities)
+                            {
+                                <option value="@city">@city</option>
+                            }
+                        </select>
+                    </div>
+                    <PersianDatePicker />
+                </EditForm>
+                <button class="search_form_button ml-auto" @onclick="OnSearch">جستجو</button>
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    SearchData searchData;
+
+    [Parameter] public RoomSearch RoomSearchData { get; set; } = new RoomSearch();
+
+    [Parameter] public EventCallback<RoomSearch> OnRoomSearched { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        searchData = await SearchDataService.GetSearchDataAsync();
+    }
+
+    async Task OnSearch()
+    {
+        await OnRoomSearched.InvokeAsync(RoomSearchData);
+    }
+}

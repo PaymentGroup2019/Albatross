@@ -1,0 +1,44 @@
+﻿@page "/"
+@using Albatross.Shared
+@using Albatross.Client.Pages.RoomInfo
+@inject Services.Interfaces.ILoginService LoginService
+@inject NavigationManager NavigationManager
+
+<div class="row px-0 mx-0" style="margin-top:50px;height: 600px;width: 100%">
+    <div class="col px-0">
+        <Offer />
+    </div>
+</div>
+<div class="row my-1">
+    <div class="col">
+        <Search OnRoomSearched="OnRoomSearched" />
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <SearchResult @ref="result" />
+    </div>
+</div>
+<div class="row">
+    <div id="room-wrapper" class="col-12 col-lg-6 mr-md-3">
+        <RoomInfoWrapper />
+    </div>
+</div>
+
+
+@code {
+    SearchResult result;
+
+    async Task OnRoomSearched(RoomSearch roomSearch)
+    {
+        await result.ShowResultAsync(roomSearch);
+    }
+
+    protected override void OnInitialized()
+    {
+        //if (!LoginService.IsLoggedIn)
+        //{
+        //    NavigationManager.NavigateTo("/AdminLogin");
+        //}
+    }
+}

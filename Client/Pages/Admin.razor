@@ -1,0 +1,21 @@
+﻿@page "/Admin"
+@layout AdminLayout
+
+@if (true)
+{
+    <div class="container-fluid" style="margin-top:150px">
+        <div class="row d-flex flex-row justify-content-center">
+            <ImageBox ImageSource="/images/city_3.jpg" PresentationText="مدیریت خوابگاه ها" Title="مدیریت خوابگاه ها" Link="Admin/Dormitories" />
+            <ImageBox ImageSource="/images/city_2.jpg" PresentationText="مدیریت اتاق ها" Title="مدیریت اتاق ها" Link="Admin/Rooms" />
+            <ImageBox ImageSource="/images/city_1.jpg" PresentationText="مدیریت خوابگاه ها" Title="مدیریت خوابگاه ها" Link="Admin/Dormitories" />
+        </div>
+    </div>
+}
+else
+{
+    //show login component
+}
+
+@code {
+
+}

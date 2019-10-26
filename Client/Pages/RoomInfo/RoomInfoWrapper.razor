@@ -1,0 +1,49 @@
+﻿@foreach (var item in RoomInfoBoxComponents)
+{
+    @item
+}
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <button type="button" style="font-size: small !important" class="btn btn-info" @onclick="AddRoomInfoBox">
+            <span class="fas fa-plus-circle pl-1 text-red"></span>درخواست اتاق جدید
+        </button>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int Limit { get; set; } = 3;
+
+    List<RenderFragment> RoomInfoBoxComponents { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        RoomInfoBoxComponents = new List<RenderFragment>();
+        //foreach (var roomInfoBox in RoomInfoBoxComponents)
+        //{
+        //    roomInfoBox.hasBottom = true;
+        //}
+        RoomInfoBoxComponents.Add(CreateRoomInfoBoxComponent());
+    }
+
+
+    private void AddRoomInfoBox()
+    {
+        if (RoomInfoBoxComponents.Count < Limit)
+        {
+            RoomInfoBoxComponents.Add(CreateRoomInfoBoxComponent());
+        }
+    }
+
+    public RenderFragment CreateRoomInfoBoxComponent()
+    {
+        return builder =>
+        {
+            builder.OpenComponent(RoomInfoBoxComponents.Count(), typeof(RoomInfoBox));
+            builder.CloseComponent();
+        };
+    }
+}

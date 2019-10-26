@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
+
+
+<div>
+    <Header />
+    <NavMenu />
+</div>
+<div class="container-fluid px-0">
+    <div class="row">
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            @Body
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <Footer />
+        </div>
+    </div>
+</div>
+
+<BlazoredToasts Position="ToastPosition.BottomLeft"
+                Timeout="2"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug"
+                WarningIconClass="fas fa-exclamation-triangle"
+                InfoIconClass="fas fa-info"/>
+
+@code {
+
+}

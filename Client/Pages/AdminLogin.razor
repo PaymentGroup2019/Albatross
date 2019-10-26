@@ -1,0 +1,94 @@
+﻿@page "/AdminLogin"
+
+@using Albatross.Shared
+@inject Services.Interfaces.ILoginService LoginService
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+@layout LoginLayout
+
+
+<div class="row d-flex justify-content-center mx-1">
+
+
+    <div class="col-lg-8 d-none d-lg-block" style="padding-top: 200px;background: linear-gradient(to left, #387aff, #d5f1ed);">
+        <div class="container text-center">
+            <h1 class="text-white">سامانه مدیرت خوابگاه</h1>
+            <br />
+            <p class="text-white">
+                با استفاده از این سامانه مدیریت خوابگاه و عملیاتی نظیر تعریف و حذف خوابگاه امکان پذیر می باشد
+            </p>
+            <p class="text-white">
+                در صورت داشتن حساب کاربری مدیر وارد شوید
+            </p>
+        </div>
+    </div>
+    <div class="col-12 col-lg-4 pl-0 pr-0">
+        <div class="limiter">
+            <div class="container-login100">
+                <div class="wrap-login100 pt-2 pb-3">
+                    <div class="row d-flex justify-content-center pl-3">
+                        <div class="logo mb-5">
+                            <a href="#"><img src="images/logo.png" alt=""></a>
+                        </div>
+                    </div>
+                    <span class="login100-form-title pb-3 pr-4">
+                        ورود کاربران
+                    </span>
+
+                    <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit" class="login100-form validate-form">
+                        <div class="wrap-input100 validate-input" data-validate="Enter username">
+                            <InputText @bind-Value="_model.UserName" id="input100-username" class="input100" type="text" name="username" placeholder="نام کاربری"></InputText>
+                            <span class="focus-input100" data-placeholder="">
+                                <i class="fa fa-lg fa-user pr-2" style="padding-top: 36px">
+                                </i>
+                            </span>
+                        </div>
+
+                        <div class="wrap-input100 validate-input" data-validate="Enter password">
+                            <InputText @bind-Value="_model.Password" id="input100-password" class="input100" type="password" name="password" placeholder="رمز عبور"></InputText>
+                            <span class="focus-input100" data-placeholder="">
+                                <i class="fa fa-lg fa-lock pr-2" style="padding-top: 36px">
+                                </i>
+                            </span>
+                        </div>
+
+                        <div class="container-login100-form-btn mt-3 pb-3">
+                            <button class="login100-form-btn" type="submit" disabled="@isLogin">@(isLogin ? "در حال ورود" : "ورود")</button>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+@code {
+    LoginDto _model = new LoginDto();
+
+    bool isLogin = false;
+
+    async Task HandleValidSubmit()
+    {
+        isLogin = true;
+
+        StateHasChanged();
+
+        var result = await LoginService.AdminLoginAsync(_model);
+
+        if (result.IsSuccessful)
+        {
+            NavigationManager.NavigateTo("/Admin");
+
+            toastService.ShowSuccess("ورود با موفقیت انجام شد");
+        }
+        else
+        {
+            isLogin = false;
+
+            StateHasChanged();
+        }
+    }
+}

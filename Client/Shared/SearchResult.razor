@@ -1,0 +1,41 @@
+﻿@using Albatross.Shared
+
+@inject Services.Interfaces.ISearchService SearchService
+
+@if (_showResult)
+{
+    if (roomDatas == null)
+    {
+        <div class="d-flex flex-row justify-content-center" style="text-align:center;font-size:16px;font-weight:400">
+            <p>در حال دریافت نتایج جستجو</p>
+        </div>
+    }
+    else
+    {
+        <div class="row d-flex flex-row justify-content-center">
+            @foreach (var room in roomDatas)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <SearchBox RoomData="room" ImageSource="/images/city_1.jpg" PresentationText="مدیریت خوابگاه ها" Title="مدیریت خوابگاه ها" Link="Admin/Dormitories" />
+                </div>
+            }
+        </div>
+    }
+}
+
+@code {
+    bool _showResult;
+
+    List<RoomData> roomDatas;
+
+    public async Task ShowResultAsync(RoomSearch roomSearch)
+    {
+        _showResult = true;
+
+        roomDatas = await SearchService.SearchRoomAsync(roomSearch);
+
+        StateHasChanged();
+    }
+
+    protected override bool ShouldRender() => _showResult;
+}

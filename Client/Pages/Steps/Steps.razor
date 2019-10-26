@@ -1,0 +1,20 @@
+﻿<div class="row d-flex justify-content-center">
+    <div class="col-3 col-md-2">
+        <StepBox Class='@((Step == 1) ? "text-warning" : ((1 < Step) ? "text-success" : "text-secondary"))' StepNumber="1" Title="اطلاعات اقامت"></StepBox>
+    </div>
+    <div class="col-3 col-md-2">
+        <StepBox Class='@((Step == 2) ? "text-warning" : ((2 < Step) ? "text-success" : "text-secondary"))' StepNumber="2" Title="انتخاب اتاق"></StepBox>
+    </div>
+    <div class="col-3 col-md-2">
+        <StepBox Class='@((Step == 3) ? "text-warning" : ((3 < Step) ? "text-success" : "text-secondary"))' StepNumber="3" Title="مشخصات فردی"></StepBox>
+    </div>
+    <div class="col-3 col-md-2">
+        <StepBox Class='@((Step == 4) ? "text-warning" : ((4 < Step) ? "text-success" : "text-secondary"))' StepNumber="4" Title="پرداخت"></StepBox>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int Step { get; set; }
+
+}

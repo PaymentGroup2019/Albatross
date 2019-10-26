@@ -1,0 +1,23 @@
+﻿@page "/fetchdata"
+@using Albatross.Shared
+@inject HttpClient Http
+
+<Offer />
+
+<RoomSlide />
+<div style="min-height:200px">
+
+</div>
+<div style="background-color:bisque">
+    <Search />    
+</div>
+
+@code {
+    WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetJsonAsync<WeatherForecast[]>("WeatherForecast");
+    }
+
+}

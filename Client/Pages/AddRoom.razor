@@ -1,0 +1,91 @@
+﻿@page "/Admin/Rooms/Register"
+@layout AdminLayout
+@using Albatross.Shared
+@using Microsoft.AspNetCore.Components
+@inject Services.Interfaces.IRoomService RoomService
+@inject NavigationManager NavigationManager
+@inject IToastService toastService
+
+<div class="container-fluid" style="margin-top:120px">
+    <div class="row d-flex justify-content-center">
+        <div class="col-lg-5">
+            <div class="card">
+                <div class="card-header">
+                    <p style="color:white;font-size:20px;font-family:IRANSans">ثبت اتاق</p>
+                </div>
+                <div class="card-body">
+                    <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <div class="form-group row">
+                            <ValidationSummary class="text-danger" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="dormitory">نام خوابگاه</label>
+
+                            @if (_dormitoryDatas == null)
+                            {
+                                <p id="dormitory">در حال دریافت اطلاعات خوابگاه‌ها</p>
+                            }
+                            else
+                            {
+                                <select class="form-control" @bind="_model.DormitoryId">
+                                    @foreach (var dormitory in _dormitoryDatas)
+                                    {
+                                        <option value="@dormitory.Id">@dormitory.Name</option>
+                                    }
+                                </select>
+                            }
+                        </div>
+                        <div class="form-group row">
+                            <label for="Capacity">تعداد</label>
+                            <InputNumber class="form-control" id="Capacity" @bind-Value="_model.Capacity" placeholder="تعداد" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="type">نوع</label>
+                            <InputText class="form-control" id="type" @bind-Value="_model.Type" placeholder="نوع" />
+                        </div>
+                        <div class="form-group row">
+                            <label for="beds">تعداد تخت</label>
+                            <InputNumber class="form-control" id="beds" @bind-Value="_model.Beds" placeholder="تعداد تخت" />
+                        </div>
+                        <div class="form-group d-flex flex-row row justify-content-center">
+                            <div class="col-lg-6 flex-grow-1 justify-content-center my-2">
+                                <button class="btn btn-warning mx-2" type="button" style="width:100%" @onclick="BackToDormitories">بازگشت</button>
+                            </div>
+                            <div class="col-lg-6 flex-grow-1 justify-content-center my-2">
+                                <button class="btn btn-success mx-2" type="submit" style="width:100%">ثبت</button>
+                            </div>
+                        </div>
+                    </EditForm>
+                </div>
+                <div class="card-footer">
+                    <p>        </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    RoomTypeRegistrationViewModel _model = new RoomTypeRegistrationViewModel();
+    List<DormitoryData> _dormitoryDatas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _dormitoryDatas = await RoomService.GetDormitoryDatasAsync();
+    }
+
+    void BackToDormitories()
+    {
+        NavigationManager.NavigateTo("/Admin/Rooms");
+    }
+
+    async Task HandleValidSubmit()
+    {
+        await RoomService.RegisterRoomAsync(_model);
+
+        toastService.ShowSuccess("Room added successfully");
+
+        NavigationManager.NavigateTo("/Admin/Rooms");
+    }
+}
